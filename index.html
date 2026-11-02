@@ -382,6 +382,22 @@ const fmt = n => "S/ " + Number(n).toFixed(2);
 const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
 // Íconos de categoría (línea, estilo de la web)
+
+   
+// Fecha de entrega: por defecto, hoy y no permite fechas anteriores
+function configurarFecha() {
+  const hoy = new Date();
+  const year = hoy.getFullYear();
+  const month = String(hoy.getMonth() + 1).padStart(2, "0");
+  const day = String(hoy.getDate()).padStart(2, "0");
+
+  const fechaHoy = `${year}-${month}-${day}`;
+
+  $("#fecha").value = fechaHoy;
+  $("#fecha").min = fechaHoy;
+}
+configurarFecha();
+   
 const ICONOS = {
   "pescados y mariscos": "img/pescados.svg",
   "carnes y parrillas": "img/carnes.svg",
