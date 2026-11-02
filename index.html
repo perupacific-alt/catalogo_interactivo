@@ -513,7 +513,7 @@ const envioTxt = e => e === null ? "Por confirmar" : e ? fmt(e) : "Gratis";
 function renderCart(){
   const it = items();
   const sub = it.reduce((a,x)=>a+x.sub,0);
-  const envio = it.length ? delivery() : 0;
+  const envio = it.length ? (sub >= 200 ? 0 : delivery()) : 0;
   const n = it.reduce((a,x)=>a+x.q,0);
   $("#lines").innerHTML = it.length ? it.map(x => `<div class="line">
       ${x.p.f ? `<img class="thumb" src="${esc(x.p.f)}" alt="">` : `<span class="thumb"></span>`}
