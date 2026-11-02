@@ -239,15 +239,15 @@ footer{color:var(--gris);font-size:12.5px;padding-block:28px 100px;text-align:ce
 <script>
 /* ========= CONFIGURACIÓN: edita aquí ========= */
 // Asesoras: cada una comparte su propio enlace y los pedidos le llegan a su WhatsApp.
-//   Jeny:   .../?asesora=jeny     Yurico: .../?asesora=yurico
-//   (también funciona con #jeny, #yurico al final del enlace)
+//   Kiara:   .../?asesora=kiara     Yurico: .../?asesora=yurico
+//   (también funciona con #kiara, #yurico al final del enlace)
 // Número con código de país, sin +, sin espacios.
 const ASESORAS = {
   yurico: { nombre: "Yurico", tel: "51946541722" },
-  jeny:   { nombre: "Jeny",   tel: "51947181213" },
+  kiara:   { nombre: "Kiara",   tel: "51947181213" },
 };
    
-const ASESORA_GENERAL = "Jeny"; // recibe los pedidos de clientes que llegan sin enlace de asesora
+const ASESORA_GENERAL = "Kiara"; // recibe los pedidos de clientes que llegan sin enlace de asesora
 const PEDIDO_MINIMO = 0;        // S/
 
 // Se acepta CUALQUIER distrito (también provincias). La lista solo sugiere al escribir.
@@ -396,7 +396,7 @@ const icono = c => {const src = ICONOS[norm(c)];return src? `<img src="${src}" c
 };
 const CART_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h2.6l2.3 11.2a1.6 1.6 0 0 0 1.6 1.3h8.6a1.6 1.6 0 0 0 1.6-1.2l1.6-7.3H6"/></svg>';
 
-// Asesora del enlace (?asesora=jeny o #jeny); si no hay, la última guardada en ese celular
+// Asesora del enlace (?asesora=kiara o #kiara); si no hay, la última guardada en ese celular
 let asesoraFija = null;
 try {
   const u = new URLSearchParams(location.search).get("asesora") || location.hash.slice(1);
