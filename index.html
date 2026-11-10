@@ -454,7 +454,25 @@ $("#searchForm").addEventListener("submit", e => { e.preventDefault(); renderGri
 // ---- Productos ----
 function renderGrid(){
   const qt = $("#q").value.trim(), q = norm(qt);
-  const list = PRODUCTOS.filter(p => (cat==="Todos" || norm(p.c)===norm(cat)) && (!q || norm(p.n+" "+(p.d||"")+" "+p.c).includes(q)));
+   
+const list = PRODUCTOS.filter(p => {
+  const texto = norm(p.n + " " + (p.d || "") + " " + p.c);
+
+  // Búsquedas relacionadas
+  const relacionados = {
+    "carpaccio": ["tiradito", "tiraditos", "carpaccios"],
+    "tiradito": ["carpaccio", "carpaccios", "tiraditos"],
+    "pulpa": ["pulpas"],
+    "conchas": ["concha"]
+  };
+
+  const coincide = texto.includes(q) ||
+    Object.entries(relacionados).some(([clave, palabras]) =>
+      q.includes(clave) && palabras.some(palabra => texto.includes(palabra))
+    );
+
+  return (cat === "Todos" || norm(p.c) === norm(cat)) && (!q || coincide);
+});
   $("#secTitle").textContent = q ? `Resultados para “${qt}”` : cat==="Todos" ? "Todos los productos" : cat;
   $("#secCount").textContent = list.length ? `${list.length} producto${list.length>1?"s":""}` : "";
   $("#grid").innerHTML = list.length ? list.map(card).join("")
