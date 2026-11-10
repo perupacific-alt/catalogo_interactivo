@@ -458,7 +458,7 @@ function renderGrid(){
 const list = PRODUCTOS.filter(p => {
   const texto = norm(p.n + " " + (p.d || "") + " " + p.c);
 
-  // Búsquedas relacionadas
+  // Palabras relacionadas
   const relacionados = {
     "carpaccio": ["tiradito", "tiraditos", "carpaccios"],
     "tiradito": ["carpaccio", "carpaccios", "tiraditos"],
@@ -466,13 +466,28 @@ const list = PRODUCTOS.filter(p => {
     "conchas": ["concha"]
   };
 
-  const coincide = texto.includes(q) ||
+  const coincide = !q || texto.includes(q) ||
     Object.entries(relacionados).some(([clave, palabras]) =>
-      q.includes(clave) && palabras.some(palabra => texto.includes(palabra))
+      q.includes(clave) &&
+      palabras.some(palabra => texto.includes(palabra))
     );
 
-  return (cat === "Todos" || norm(p.c) === norm(cat)) && (!q || coincide);
+  // Si no hay búsqueda, mostrar solo la categoría seleccionada.
+  // Si hay búsqueda, mostrar coincidencias de todas las categorías.
+  return q
+    ? coincide
+    : (cat === "Todos" || norm(p.c) === norm(cat));
+
+}).sort((a, b) => {
+  // Priorizar la categoría seleccionada cuando hay búsqueda
+  if (!q || cat === "Todos") return 0;
+
+  const aPrioridad = norm(a.c) === norm(cat) ? 1 : 0;
+  const bPrioridad = norm(b.c) === norm(cat) ? 1 : 0;
+
+  return bPrioridad - aPrioridad;
 });
+
   $("#secTitle").textContent = q ? `Resultados para “${qt}”` : cat==="Todos" ? "Todos los productos" : cat;
   $("#secCount").textContent = list.length ? `${list.length} producto${list.length>1?"s":""}` : "";
   $("#grid").innerHTML = list.length ? list.map(card).join("")
